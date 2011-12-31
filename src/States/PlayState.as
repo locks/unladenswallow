@@ -1,5 +1,7 @@
 ﻿package  States
 {
+	import Entities.Enemies.baseEnemy;
+	import Entities.Enemies.littleBastard;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxObject;
 	import org.flixel.FlxSprite;
@@ -29,7 +31,7 @@
 			} else {
 				
 				if (enemiesGroup.members.length > 0)
-					var enemy:Enemy = enemiesGroup.members[1];
+ 					var enemy:littleBastard = enemiesGroup.members[1];
 					
 					enemy.revive();
 				
@@ -38,12 +40,10 @@
 
 		}
 		
-		private function Collision(bullet:FlxObject, enemy:Enemy):void
+		private function Collision(bullet:FlxObject, enemy:baseEnemy):void
 		{
-			enemy.shoot();
+			enemy.takeDamage(1, true);
 			bullet.kill();
-
-			if (enemy.dead()) enemy.kill();
 		}
 		
 		override public function create():void 
@@ -60,13 +60,14 @@
 			{
 				for (var j:int = 0; j < 3; ++j) 
 				{
-					var enemy:Enemy = new Enemy(32 + 64 * i, 32 + 48 * j);
+					var enemy:littleBastard = new littleBastard(32 + 64 * i, 32 + 48 * j);
 					enemiesGroup.add(enemy);
 				}
 			}
 			add(enemiesGroup);
 			
 			baddiesTimer = 1.0;
+			FlxG.paused = true;
 		}
 	}
 }
